@@ -1,10 +1,11 @@
 """
     this module is used to extract and preprocess from the raw data
+    N.B. but some preprocessing are done manually
 """
 
 import os
 import json
-data_path = os.path.dirname(__file__) + '/../data/'
+data_path = os.path.dirname(__file__) + '/../src/bangla/data/'
 
 def get_word_list():
     with open(data_path + 'words.txt', 'r', encoding='utf-8') as file:
