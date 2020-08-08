@@ -1,1 +1,1 @@
-include ./bangla/data/*.json
+include ./bangla/data/bangla.pkl
