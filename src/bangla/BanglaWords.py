@@ -12,14 +12,33 @@ class Files:
 class Words(Files):
     def __init__(self):
         Files.__init__(self)
+        self.__len = len(self.data['words'])
 
-    def get_words(self, prop = 'all'):
-        if prop == 'all': return self.data['words']
+    def get_words(self, num_of_words = None, prop = 'all'):
+        """
+        parameters:
+            num_of_words: (int) number of total words from datasets, default is None
+            prop: (str) takes bangla letters to get that specific words list
+        """
+        if prop == 'all':
+            num_of_words = self.__len if num_of_words == None else num_of_words
+            yield from self.__pull_words(num_of_words = num_of_words)
+        else:
+            yield from self.__pull_words(num_of_words = num_of_words, keys=prop)
 
-        try:
-            return self.data['words_dict'][prop]
-        except KeyError:
-            print('Check your keys parameter!')
+    def __pull_words(self, num_of_words, keys = None):
+        """
+        parameters:
+            num_of_words: (int) number of total words from datasets, default is None
+            prop: (str) takes bangla letters to get that specific words list
+        """
+        __len_counter = 0
+        try: __data = self.data['words'][__len_counter] if keys == None else self.data['words_dict'][keys][__len_counter]
+        except KeyError: print('Error: Check your prop!')
+        else:
+            while __len_counter < num_of_words:
+                yield __data
+                __len_counter += 1
 
     @property
     def STOP_WORDS(self):
@@ -37,6 +56,11 @@ class Words(Files):
     def NUMBERS(self):
         return self.data['numbers']
 
+#   test
 if __name__ == '__main__':
     files = Words()
-    print(files.get_words('k'))
+    a = files.get_words(num_of_words = 10, prop='2')
+    # a.__next__()
+    # print(list(a))
+    for i in a:
+        print(str(i))
