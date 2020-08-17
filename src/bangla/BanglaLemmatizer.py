@@ -1,28 +1,24 @@
 from .BanglaWords import Words
-from .Algorithm import BanglaTrie
+from .lib.Algorithm import BanglaTrie
 
 class Lemmatizer(BanglaTrie):
     def __init__(self):
         BanglaTrie.__init__(self)
 
-    def get_lemma(self, word_list='default'):
+    def get_lemma(self, word):
         """
         parameters:
-            word_list: take list as argument but by default it takes all words from Words().get_words()
+            word: (str or list) takes str or list of words
+        return:
+            (iterator) str of lemma word
         """
-        if word_list != 'default' and not isinstance(word_list, list): raise KeyError('Check word_list type!') 
-        self._words_data = Words().get_words() if word_list == 'default' else word_list
-        return self._get_lemma()
-
-    # def __stop_words_remove(self):
-    #     """
-    #     used to remove the stop_words from the Words().STOP_WORDS and 
-    #     """
-    #     print(self.__stop_words)
-
-    # def __punctuation_remove(self):
-    #     """
-    #     used to remove the punctuation_word from the Words().PUNCTUATION_LIST
-    #     """
-    #     print(self.__punctuation_list)
+        validation = (str, list)
+        if type(word) in validation:
+            if isinstance(word, str): yield self.chk_lemma(word)
+            else:
+                for i in word:
+                    if not isinstance(i, str): raise ValueError(f'Use str into the list!')
+                    yield self.chk_lemma(i)
+        else: 
+            raise KeyError(f'Use str or list as paramters!')
 
