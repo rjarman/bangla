@@ -77,13 +77,11 @@ class Words(Files):
 #   test
 if __name__ == '__main__':
     files = Words()
-    a = files.get_words(num_of_words = 5, prop="ঐ")
-    # a.__next__()
-    print(len(files.STOP_WORDS))
-    print(list(a))
-    for i in a:
+    get_words = files.get_words(num_of_words = 5, prop="ঐ")
+    print(list(get_words))
+    for i in get_words:
         print(str(i))
-    for i in a:
-        print(str(i))
-    
-    # print(list(a))
+    print(files.STOP_WORDS)
+    print(files.PUNCTUATION)
+    print(files.LETTERS)
+    print(files.NUMBERS)

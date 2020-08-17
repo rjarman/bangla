@@ -1,1 +1,2 @@
 include ./bangla/data/bangla.pkl
+include ./bangla/lib/*.py
