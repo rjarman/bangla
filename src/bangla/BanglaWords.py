@@ -4,10 +4,67 @@ import pickle
 class Files:
     def __init__(self):
         self.__path = os.path.dirname(__file__) + '/data/bangla.pkl'
-        self.data = self.get_files()
+        self.data = self.__get_files()
 
-    def get_files(self):
+    def __get_files(self):
         return pickle.load(open(self.__path, mode='rb'), encoding='utf-8')
+    
+    def __add_data(self, data):
+        pickle.dump(data, open(self.__path, mode='wb'))
+        
+    def add_data(self, d_type, data):
+        """
+        Parameters
+        ----------
+        d_type : str
+            'stop_words', 'punctuation', 'letters', 'numbers', 'words', 'words_dict'.
+        data : str or list of words
+
+        Returns
+        -------
+        None.
+
+        """
+        try:
+            if not isinstance(d_type, str): raise KeyError
+            if type(data) not in (str, list): raise Exception('KeyError: Use str or list as parametrs!')
+        except KeyError:
+            print('KeyError: Use str as paramters!')
+        else:
+            __data = self.__get_files()
+            if isinstance(data, str):
+                if d_type == 'words_dict':
+                    if data not in __data[d_type][data[0]]: 
+                        __data[d_type][data[0]].append(data)
+                        print(f'{data} added successfully to {d_type}!')
+                    else: print(f'{data} already exist in {d_type}!')
+                else:
+                    if data in __data[d_type]: 
+                        __data[d_type].append(data)
+                        print(f'{data} added successfully to {d_type}!')
+                    else: print(f'{data} already exist in {d_type}!')
+            elif isinstance(data, list):
+                if d_type == 'words_dict':
+                    error = 0
+                    for datum in data:
+                        if datum not in __data[d_type][datum[0]]: __data[d_type][datum[0]].append(datum)
+                        else: 
+                            error+=1
+                            print(f'{datum} already exist in {d_type}!')
+                            continue
+                    print(f'{len(data) - error} data added successfully!')
+                    print(f'{error} failed!')
+                else:
+                    error = 0
+                    for datum in data:
+                        if datum not in __data[d_type]: __data[d_type].append(datum)
+                        else: 
+                            error+=1
+                            print(f'{datum} already exist in {d_type}!')
+                            continue
+                    print(f'{len(data) - error} data added successfully!')
+                    print(f'{error} failed!')
+            self.__add_data(__data)
 
 class Words(Files):
     def __init__(self):
@@ -76,12 +133,15 @@ class Words(Files):
 
 #   test
 if __name__ == '__main__':
-    files = Words()
-    get_words = files.get_words(num_of_words = 5, prop="ঐ")
+    words = Words()
+    get_words = words.get_words(num_of_words = 5, prop="ঐ")
     print(list(get_words))
     for i in get_words:
         print(str(i))
-    print(files.STOP_WORDS)
-    print(files.PUNCTUATION)
-    print(files.LETTERS)
-    print(files.NUMBERS)
+    print(words.STOP_WORDS)
+    print(words.PUNCTUATION)
+    print(words.LETTERS)
+    print(words.NUMBERS)
+    
+    files = Files()
+    files.add_data('words_dict', 'এ')

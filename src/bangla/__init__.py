@@ -1,2 +1,2 @@
-from .BanglaWords import Words
+from .BanglaWords import Words, Files
 from .BanglaLemmatizer import Lemmatizer
