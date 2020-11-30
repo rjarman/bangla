@@ -34,14 +34,18 @@ class Files:
             __data = self.__get_files()
             if isinstance(data, str):
                 if d_type == 'words_dict':
+                    print(f'previous length of {data[0]} key: {len(data[0])}')
                     if data not in __data[d_type][data[0]]: 
                         __data[d_type][data[0]].append(data)
                         print(f'{data} added successfully to {d_type}!')
+                        print(f'new length of {data[0]} key: {len(data[0])}')
                     else: print(f'{data} already exist in {d_type}!')
                 else:
+                    print(f'previous length of {d_type}: {len(__data[d_type])}')
                     if data in __data[d_type]: 
                         __data[d_type].append(data)
                         print(f'{data} added successfully to {d_type}!')
+                        print(f'new length of {d_type}: {len(__data[d_type])}')
                     else: print(f'{data} already exist in {d_type}!')
             elif isinstance(data, list):
                 if d_type == 'words_dict':
@@ -56,6 +60,7 @@ class Files:
                     print(f'{len(data) - error} data added successfully!')
                     print(f'{error} failed!')
                 else:
+                    print(f'previous length of {d_type}: {len(__data[d_type])}')
                     error = 0
                     for datum in data:
                         if datum not in __data[d_type]: 
@@ -67,6 +72,7 @@ class Files:
                             continue
                     print(f'{len(data) - error} data added successfully!')
                     print(f'{error} failed!')
+                    print(f'new length of {d_type}: {len(__data[d_type])}')
             self.__add_data(__data)
 
 class Words(Files):
@@ -136,15 +142,29 @@ class Words(Files):
 
 #   test
 if __name__ == '__main__':
-    words = Words()
-    get_words = words.get_words(num_of_words = 5, prop="ঐ")
-    print(list(get_words))
-    for i in get_words:
-        print(str(i))
-    print(words.STOP_WORDS)
-    print(words.PUNCTUATION)
-    print(words.LETTERS)
-    print(words.NUMBERS)
+    # words = Words()
+    # get_words = words.get_words(num_of_words = 5, prop="ঐ")
+    # print(list(get_words))
+    # for i in get_words:
+    #     print(str(i))
+    # print(words.STOP_WORDS)
+    # print(words.PUNCTUATION)
+    # print(words.LETTERS)
+    # print(words.NUMBERS)
     
     files = Files()
-    files.add_data('words_dict', 'এ')
+    
+    # files.add_data('words_dict', 'বাগেরহাট')
+    with open('./data/add.txt', mode='r', encoding='utf-8') as file:
+        data = file.readlines()
+        files.add_data('words_dict', data)
+        files.add_data('words', data)
+    
+    # # files.add_data('words', 'রাফসান জানি আরমান')
+    
+    # prev_data = pickle.load(open('./data/bangla.pkl', mode='rb'), encoding='utf-8')
+    # print('previous words length: ', len(prev_data['words']))
+    # print(pickle.load(open('./data/bangla.pkl', mode='rb'), encoding='utf-8').keys())
+    # with open('./data/add.txt', mode='r', encoding='utf8') as file:
+        # print(type(file.read()))
+        # files.add_data(file)
