@@ -47,7 +47,8 @@ class Files:
                 if d_type == 'words_dict':
                     error = 0
                     for datum in data:
-                        if datum not in __data[d_type][datum[0]]: __data[d_type][datum[0]].append(datum)
+                        if datum not in __data[d_type][datum[0]]: 
+                            __data[d_type][datum[0]].append(datum)
                         else: 
                             error+=1
                             print(f'{datum} already exist in {d_type}!')
@@ -57,7 +58,9 @@ class Files:
                 else:
                     error = 0
                     for datum in data:
-                        if datum not in __data[d_type]: __data[d_type].append(datum)
+                        if datum not in __data[d_type]: 
+                            __data[d_type].append(datum)
+                            
                         else: 
                             error+=1
                             print(f'{datum} already exist in {d_type}!')
